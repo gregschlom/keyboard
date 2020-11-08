@@ -1,6 +1,7 @@
 #include <Arduino.h>
 #include <LedDisplay.h>
 #include <usb_keyboard.h>
+#include "keycodes.h"
 
 LedDisplay display =  LedDisplay(/*dataPin=*/0, 
                                  /*registerSelect=*/1, 
@@ -19,29 +20,16 @@ constexpr int8_t kNumRows = sizeof(rows);
 static_assert(kNumCols < 16, "cannot handle more than 16 columns");
 static_assert(kNumRows < 8, "cannot handle more than 8 rows");
 
-#define KEY_TRNS 0
-
-enum Mods : uint8_t {
-    KC_LCTRL = 0xE0,
-    KC_LSHIFT,
-    KC_LALT,
-    KC_LGUI,
-    KC_RCTRL,
-    KC_RSHIFT,
-    KC_RALT,
-    KC_RGUI
-};
-
 #define IS_MOD(code) (KC_LCTRL <= (code) && (code) <= KC_RGUI)
 #define MOD_INDEX(code) ((code) & 0b111)
 #define MOD_BIT(code) (1 << MOD_INDEX(code))
 
 constexpr uint8_t layout[kNumRows][kNumCols] = {
- { KEY_ESC, KEY_1, KEY_2, KEY_3, KEY_4, KEY_5, KEY_6, KEY_7, KEY_8, KEY_9, KEY_0, KEY_MINUS, KEY_EQUAL, KEY_TILDE, KEY_PAUSE },
- { KEY_TAB, KEY_Q, KEY_W, KEY_E, KEY_R, KEY_T, KEY_Y, KEY_U, KEY_I, KEY_O, KEY_P, KEY_LEFT_BRACE, KEY_RIGHT_BRACE, KEY_BACKSPACE, KEY_TRNS },
- { KC_LCTRL, KEY_A, KEY_S, KEY_D, KEY_F, KEY_G, KEY_H, KEY_J, KEY_K, KEY_L, KEY_SEMICOLON, KEY_QUOTE, KEY_ENTER, KEY_TRNS, KEY_TRNS},
- { KC_LSHIFT, KEY_Z, KEY_X, KEY_C, KEY_V, KEY_B, KEY_N, KEY_M, KEY_COMMA, KEY_PERIOD, KEY_SLASH, KC_RSHIFT, KEY_TRNS, KEY_UP, KEY_TRNS },
- { KC_LALT, KC_LGUI, KEY_TRNS, KEY_TRNS, KEY_TRNS, KEY_SPACE, KEY_TRNS, KEY_TRNS, KEY_TRNS, KC_RALT, KC_RGUI, KEY_LEFT, KEY_DOWN, KEY_RIGHT, KEY_TRNS },
+ { KC_ESCAPE, KC_1, KC_2, KC_3, KC_4, KC_5, KC_6, KC_7, KC_8, KC_9, KC_0, KC_MINUS, KC_EQUAL, KC_GRAVE, KC_PAUSE },
+ { KC_TAB, KC_Q, KC_W, KC_E, KC_R, KC_T, KC_Y, KC_U, KC_I, KC_O, KC_P, KC_LBRACKET, KC_RBRACKET, KC_BSPACE, KC_NULL },
+ { KC_LCTRL, KC_A, KC_S, KC_D, KC_F, KC_G, KC_H, KC_J, KC_K, KC_L, KC_SCOLON, KC_QUOTE, KC_ENTER, KC_NULL, KC_NULL},
+ { KC_LSHIFT, KC_Z, KC_X, KC_C, KC_V, KC_B, KC_N, KC_M, KC_COMMA, KC_DOT, KC_SLASH, KC_RSHIFT, KC_NULL, KC_UP, KC_NULL },
+ { KC_LALT, KC_LGUI, KC_NULL, KC_NULL, KC_NULL, KC_SPACE, KC_NULL, KC_NULL, KC_NULL, KC_RALT, KC_RGUI, KC_LEFT, KC_DOWN, KC_RIGHT, KC_NULL },
 };
 
 void setup() {
