@@ -1,7 +1,7 @@
 #ifndef KEYCODE_H
 #define KEYCODE_H
 
-enum keycodes : char {
+enum keycodes : unsigned char {
     KC_NULL = 0x00,
     KC_ROLL_OVER,
     KC_POST_FAIL,
@@ -206,7 +206,8 @@ enum keycodes : char {
     KC_RCTRL,
     KC_RSHIFT,
     KC_RALT,
-    KC_RGUI
+    KC_RGUI,
+    KC_FN,
 };
 
 #endif
