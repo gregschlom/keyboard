@@ -28,6 +28,14 @@ public:
     return false;
   }
 
+  bool process_single(uint8_t value) {
+    if (size_ == 1 && buffer_[0] == value) {
+      clear();
+      return true;
+    }
+    return false;
+  }
+
   void clear() {
     size_ = 0;
   }
